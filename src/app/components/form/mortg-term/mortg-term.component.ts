@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormsServiceService } from '../forms-service.service';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 
@@ -10,24 +10,14 @@ import { FormGroup, ReactiveFormsModule } from '@angular/forms';
   templateUrl: './mortg-term.component.html',
   styleUrl: './mortg-term.component.css',
 })
-export class MortgTermComponent implements OnInit {
+export class MortgTermComponent {
   mortFocused = false;
 
-  mortgageForm!: FormGroup;
+  @Input() mortgageForm!: FormGroup;
 
-  submitted!: boolean;
+  @Input() submitted!: boolean;
 
   constructor(private formService: FormsServiceService) {}
-
-  ngOnInit(): void {
-    this.formService.mortgageForm$.subscribe((value) => {
-      this.mortgageForm = value;
-    });
-
-    this.formService.submitted$.subscribe((value) => {
-      this.submitted = value;
-    });
-  }
 
   onFocus(event: Event) {
     this.mortFocused = true;

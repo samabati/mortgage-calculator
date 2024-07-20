@@ -5,20 +5,32 @@
         <h1>Mortgage Calculator</h1>
         <app-clear-all></app-clear-all>
       </div>
-      <app-mortg-amount></app-mortg-amount>
+      <app-mortg-amount
+        [submitted]="submitted"
+        [mortgageForm]="mortgageForm"
+      ></app-mortg-amount>
       <div class="mortgage-interest-field">
-        <app-mortg-term></app-mortg-term>
-        <app-interest-term></app-interest-term>
+        <app-mortg-term
+          [submitted]="submitted"
+          [mortgageForm]="mortgageForm"
+        ></app-mortg-term>
+        <app-interest-term
+          [submitted]="submitted"
+          [mortgageForm]="mortgageForm"
+        ></app-interest-term>
       </div>
       <div class="mortgage-type">
         <p>Mortgage Type</p>
-        <app-repayment-type></app-repayment-type>
-        <app-interest-type></app-interest-type>
+        <app-repayment-type [mortgageForm]="mortgageForm"></app-repayment-type>
+        <app-interest-type
+          [submitted]="submitted"
+          [mortgageForm]="mortgageForm"
+        ></app-interest-type>
       </div>
       <app-submit-form></app-submit-form>
     </div>
     <div class="results-container">
-      <app-results></app-results>
+      <app-results [submitted]="submitted"></app-results>
     </div>
   </div>
 </div>

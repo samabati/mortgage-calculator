@@ -34,20 +34,16 @@ import { ClearAllComponent } from './components/form/clear-all/clear-all.compone
 })
 export class AppComponent implements OnInit {
   // form states
-  submitted = false;
-  validForm = false;
-
-  // calculation used for display calculation
-  displayMonthly?: string;
-  displayTotal?: string;
-
-  // form used for 2 way data binding
+  submitted!: boolean;
   mortgageForm!: FormGroup;
 
   constructor(private formService: FormsServiceService) {}
   ngOnInit(): void {
     this.formService.mortgageForm$.subscribe((value) => {
       this.mortgageForm = value;
+    });
+    this.formService.submitted$.subscribe((value) => {
+      this.submitted = value;
     });
   }
 }

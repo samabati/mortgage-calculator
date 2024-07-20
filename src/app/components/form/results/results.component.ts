@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormsServiceService } from '../forms-service.service';
 import { Observable } from 'rxjs';
 
@@ -11,16 +11,13 @@ import { Observable } from 'rxjs';
   styleUrl: './results.component.css',
 })
 export class ResultsComponent implements OnInit {
-  submitted!: boolean;
+  @Input() submitted!: boolean;
   validForm!: boolean;
   displayMonthly!: Observable<string>;
   displayTotal!: Observable<string>;
 
   constructor(private formsService: FormsServiceService) {}
   ngOnInit(): void {
-    this.formsService.submitted$.subscribe((value) => {
-      this.submitted = value;
-    });
     this.formsService.validForm$.subscribe((value) => {
       this.validForm = value;
     });
