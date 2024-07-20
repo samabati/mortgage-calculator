@@ -120,6 +120,7 @@ export class AppComponent {
 
   // function executes when user submits form
   formSubmit() {
+    console.log('form submit ran');
     this.submitted = true;
     if (this.mortgageForm.valid) {
       this.validForm = true;
