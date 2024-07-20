@@ -35,7 +35,8 @@
             </div>
             <div class="field">
               <input
-                type="number"
+                maxlength="10"
+                type="text"
                 id="euro"
                 (focus)="onFocus($event)"
                 (blur)="onBlur($event)"
@@ -88,7 +89,9 @@
               </h2>
             </div>
           </div>
-          @if ( mortgageForm.get('mortgageTerm')?.invalid && submitted) {
+          @if(mortgageForm.get('mortgageTerm')?.hasError('max')){
+          <p class="error">Cannot exceed 60 years.</p>
+          } @else if ( mortgageForm.get('mortgageTerm')?.invalid && submitted) {
           <p class="error">This field is required</p>
           }
         </div>
@@ -129,7 +132,10 @@
               />
             </div>
           </div>
-          @if (mortgageForm.get('mortgageInterest')?.invalid && submitted) {
+          @if(mortgageForm.get('mortgageInterest')?.hasError('max')){
+          <p class="error">Cannot exceed 20%.</p>
+          } @else if (mortgageForm.get('mortgageInterest')?.invalid &&
+          submitted) {
           <p class="error">This field is required</p>
           }
         </div>

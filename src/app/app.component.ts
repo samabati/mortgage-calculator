@@ -1,11 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import {
+  AbstractControl,
   FormBuilder,
   FormControl,
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
+  ValidatorFn,
   Validators,
 } from '@angular/forms';
 import { RouterOutlet } from '@angular/router';
@@ -38,10 +40,29 @@ export class AppComponent {
 
   constructor(private fb: FormBuilder) {
     this.mortgageForm = this.fb.group({
-      mortgageAmount: new FormControl('', Validators.required),
-      mortgageTerm: new FormControl('', Validators.required),
-      mortgageInterest: new FormControl('', Validators.required),
+      mortgageAmount: new FormControl('', [Validators.required]),
+      mortgageTerm: new FormControl('', [
+        Validators.required,
+        Validators.min(1), // Minimum value for the term (e.g., 1 year)
+        Validators.max(60), // Maximum value for the term (60 years)
+      ]),
+      mortgageInterest: new FormControl('', [
+        Validators.required,
+        Validators.min(1), // Minimum value for the term (e.g., 1 year)
+        Validators.max(20), // Maximum value for the term (60 years)),
+      ]),
       mortgageType: new FormControl('', Validators.required),
+    });
+
+    const mortgageAmount = this.mortgageForm.get('mortgageAmount');
+
+    mortgageAmount?.valueChanges.subscribe((value) => {
+      const numericValue = value.replace(/,/g, '');
+      const formattedValue = this.formatNumber(numericValue);
+      if (formattedValue !== value) {
+        mortgageAmount.setValue(formattedValue, { emitEvent: false });
+      }
+      mortgageAmount.updateValueAndValidity();
     });
   }
 
@@ -116,7 +137,9 @@ export class AppComponent {
   // function calculates mortgage payment if valid form is submitted by user
   calculateForm() {
     // get values
-    const principal = Number(this.mortgageForm.get('mortgageAmount')?.value);
+    const principal = Number(
+      this.removeCommas(this.mortgageForm.get('mortgageAmount')?.value)
+    );
     const total_term = Number(this.mortgageForm.get('mortgageTerm')?.value);
     const annual_interest = Number(
       this.mortgageForm.get('mortgageInterest')?.value
@@ -135,7 +158,24 @@ export class AppComponent {
       (Math.pow(1 + monthly_interest, total_payments) - 1);
     const total_value_over_term = monthly_payment * total_payments;
 
+    // remove trailing decimal and assign to property value
     this.displayMonthly = monthly_payment.toFixed(2);
     this.displayTotal = total_value_over_term.toFixed(2);
+  }
+
+  // Format mortgage amount input
+
+  formatNumber(value: string): string {
+    if (!value) return '';
+    // Remove non-digit characters
+    value = value.replace(/\D/g, '');
+    // Format number with commas
+    return value.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  }
+
+  // Remove commas from total amount for calculation
+
+  removeCommas(value: string): string {
+    return value.replace(/,/g, '');
   }
 }
