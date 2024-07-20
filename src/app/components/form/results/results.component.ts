@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsServiceService } from '../forms-service.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-results',
@@ -12,8 +13,8 @@ import { FormsServiceService } from '../forms-service.service';
 export class ResultsComponent implements OnInit {
   submitted!: boolean;
   validForm!: boolean;
-  displayMonthly!: string;
-  displayTotal!: string;
+  displayMonthly!: Observable<string>;
+  displayTotal!: Observable<string>;
 
   constructor(private formsService: FormsServiceService) {}
   ngOnInit(): void {
@@ -24,12 +25,7 @@ export class ResultsComponent implements OnInit {
       this.validForm = value;
     });
 
-    this.formsService.displayMonthly$.subscribe((value) => {
-      this.displayMonthly = value;
-    });
-
-    this.formsService.displayTotal$.subscribe((value) => {
-      this.displayTotal = value;
-    });
+    this.displayMonthly = this.formsService.displayMonthly$;
+    this.displayTotal = this.formsService.displayTotal$;
   }
 }

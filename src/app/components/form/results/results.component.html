@@ -9,11 +9,13 @@
     <div class="results-cont">
       <p>Your monthly repayments</p>
       <h3>
-        {{ displayMonthly | currency : "USD" : "symbol" : "1.2-2" }}
+        {{ displayMonthly | async | currency : "USD" : "symbol" : "1.2-2" }}
       </h3>
       <hr />
       <p>Total you'll repay over the term</p>
-      <h1>{{ displayTotal | currency : "USD" : "symbol" : "1.2-2" }}</h1>
+      <h1>
+        {{ displayTotal | async | currency : "USD" : "symbol" : "1.2-2" }}
+      </h1>
     </div>
   </div>
   } @else () {
