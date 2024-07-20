@@ -1,0 +1,29 @@
+<div class="results">
+  @if(submitted && validForm){
+  <div class="results-inner">
+    <h1>Your results</h1>
+    <p>
+      Your results are shown below based on the information you provided. To
+      adjust the results, edit the form and click “calculate repayments” again.
+    </p>
+    <div class="results-cont">
+      <p>Your monthly repayments</p>
+      <h3>
+        {{ displayMonthly | currency : "USD" : "symbol" : "1.2-2" }}
+      </h3>
+      <hr />
+      <p>Total you'll repay over the term</p>
+      <h1>{{ displayTotal | currency : "USD" : "symbol" : "1.2-2" }}</h1>
+    </div>
+  </div>
+  } @else () {
+  <div class="default-inner">
+    <img src="assets/results.svg" alt="" />
+    <h1>Results shown here</h1>
+    <p>
+      Complete the form and click “calculate repayments” to see what your
+      monthly repayments would be.
+    </p>
+  </div>
+  }
+</div>

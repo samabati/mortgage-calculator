@@ -1,0 +1,44 @@
+<div class="interest-field" [formGroup]="mortgageForm">
+  <p>Interest Rate</p>
+  <div
+    [ngClass]="{
+      'm-i-input-cont': true,
+      'on-click-border': interestFocused,
+      'error-outline':
+        mortgageForm.get('mortgageInterest')?.invalid && submitted
+    }"
+  >
+    <div class="i-left">
+      <input
+        type="number"
+        id="interest"
+        (focus)="onFocus()"
+        (blur)="onBlur()"
+        formControlName="mortgageInterest"
+        (input)="updateFormField('mortgageInterest', $event.target)"
+      />
+    </div>
+    <div
+      [ngClass]="{
+        'i-right': true,
+        'on-click-prefix': interestFocused,
+        'error-prefix':
+          mortgageForm.get('mortgageInterest')?.invalid && submitted
+      }"
+    >
+      <img
+        src="assets/percent.svg"
+        [ngClass]="{
+          'white-img':
+            mortgageForm.get('mortgageInterest')?.invalid && submitted
+        }"
+        alt=""
+      />
+    </div>
+  </div>
+  @if(mortgageForm.get('mortgageInterest')?.hasError('max')){
+  <p class="error">Cannot exceed 20%.</p>
+  } @else if (mortgageForm.get('mortgageInterest')?.invalid && submitted) {
+  <p class="error">This field is required</p>
+  }
+</div>

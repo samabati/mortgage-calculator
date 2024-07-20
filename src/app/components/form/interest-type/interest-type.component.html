@@ -1,0 +1,21 @@
+<div
+  [ngClass]="{
+    'radio-cont': true,
+    'on-click-border': mortgageForm.value.mortgageType == 'radio2',
+    'on-click-radio': mortgageForm.value.mortgageType == 'radio2'
+  }"
+  [formGroup]="mortgageForm"
+>
+  <input
+    type="radio"
+    name="mortgageType"
+    formControlName="mortgageType"
+    id="radio2"
+    value="radio2"
+    (input)="updateFormField('mortgageType', $event.target)"
+  />
+  <h2>Interest Only</h2>
+</div>
+@if (mortgageForm.get('mortgageType')?.invalid && submitted) {
+<p class="error">This field is required</p>
+}

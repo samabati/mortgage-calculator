@@ -1,0 +1,45 @@
+<div class="fields" [formGroup]="mortgageForm">
+  <div class="number-field">
+    <p>Mortgage Amount</p>
+    <div
+      [ngClass]="{
+        'amount-field': true,
+        'on-click-border': euroFocused,
+        'error-outline':
+          mortgageForm.get('mortgageAmount')?.invalid && submitted
+      }"
+    >
+      <div
+        [ngClass]="{
+          prefix: true,
+          'on-click-prefix': euroFocused,
+          'error-prefix':
+            mortgageForm.get('mortgageAmount')?.invalid && submitted
+        }"
+      >
+        <img
+          src="assets/euro.svg"
+          [ngClass]="{
+            'white-img':
+              mortgageForm.get('mortgageAmount')?.invalid && submitted
+          }"
+          alt=""
+        />
+      </div>
+      <div class="field">
+        <input
+          maxlength="10"
+          type="text"
+          id="euro"
+          (focus)="onFocus($event)"
+          (blur)="onBlur($event)"
+          formControlName="mortgageAmount"
+          (input)="updateFormField('mortgageAmount', $event.target)"
+        />
+      </div>
+    </div>
+    @if (mortgageForm.get('mortgageAmount')?.invalid && submitted) {
+    <p class="error">This field is required</p>
+    }
+  </div>
+</div>

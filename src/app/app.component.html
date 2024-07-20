@@ -3,213 +3,22 @@
     <div class="form" [formGroup]="mortgageForm">
       <div class="title-bar">
         <h1>Mortgage Calculator</h1>
-        <p (click)="clearAll()">Clear All</p>
+        <app-clear-all></app-clear-all>
       </div>
-      <div class="fields">
-        <div class="number-field">
-          <p>Mortgage Amount</p>
-          <div
-            [ngClass]="{
-              'amount-field': true,
-              'on-click-border': euroFocused,
-              'error-outline':
-                mortgageForm.get('mortgageAmount')?.invalid && submitted
-            }"
-          >
-            <div
-              [ngClass]="{
-                prefix: true,
-                'on-click-prefix': euroFocused,
-                'error-prefix':
-                  mortgageForm.get('mortgageAmount')?.invalid && submitted
-              }"
-            >
-              <img
-                src="assets/euro.svg"
-                [ngClass]="{
-                  'white-img':
-                    mortgageForm.get('mortgageAmount')?.invalid && submitted
-                }"
-                alt=""
-              />
-            </div>
-            <div class="field">
-              <input
-                maxlength="10"
-                type="text"
-                id="euro"
-                (focus)="onFocus($event)"
-                (blur)="onBlur($event)"
-                formControlName="mortgageAmount"
-              />
-            </div>
-          </div>
-          @if (mortgageForm.get('mortgageAmount')?.invalid && submitted) {
-          <p class="error">This field is required</p>
-          }
-        </div>
-      </div>
+      <app-mortg-amount></app-mortg-amount>
       <div class="mortgage-interest-field">
-        <div class="mortgage-field">
-          <p>Mortgage Term</p>
-          <div
-            [ngClass]="{
-              'm-i-input-cont': true,
-              'on-click-border': mortFocused,
-              'error-outline':
-                mortgageForm.get('mortgageTerm')?.invalid && submitted
-            }"
-          >
-            <div class="m-left">
-              <input
-                type="number"
-                id="mortgage"
-                (focus)="onFocus($event)"
-                (blur)="onBlur($event)"
-                formControlName="mortgageTerm"
-              />
-            </div>
-            <div
-              [ngClass]="{
-                'm-right': true,
-                'on-click-prefix': mortFocused,
-                'error-prefix':
-                  mortgageForm.get('mortgageTerm')?.invalid && submitted
-              }"
-            >
-              <h2
-                [ngStyle]="{
-                  color:
-                    mortgageForm.get('mortgageTerm')?.invalid && submitted
-                      ? 'white'
-                      : 'inherit'
-                }"
-              >
-                years
-              </h2>
-            </div>
-          </div>
-          @if(mortgageForm.get('mortgageTerm')?.hasError('max')){
-          <p class="error">Cannot exceed 60 years.</p>
-          } @else if ( mortgageForm.get('mortgageTerm')?.invalid && submitted) {
-          <p class="error">This field is required</p>
-          }
-        </div>
-        <div class="interest-field">
-          <p>Interest Rate</p>
-          <div
-            [ngClass]="{
-              'm-i-input-cont': true,
-              'on-click-border': interestFocused,
-              'error-outline':
-                mortgageForm.get('mortgageInterest')?.invalid && submitted
-            }"
-          >
-            <div class="i-left">
-              <input
-                type="number"
-                id="interest"
-                (focus)="onFocus($event)"
-                (blur)="onBlur($event)"
-                formControlName="mortgageInterest"
-              />
-            </div>
-            <div
-              [ngClass]="{
-                'i-right': true,
-                'on-click-prefix': interestFocused,
-                'error-prefix':
-                  mortgageForm.get('mortgageInterest')?.invalid && submitted
-              }"
-            >
-              <img
-                src="assets/percent.svg"
-                [ngClass]="{
-                  'white-img':
-                    mortgageForm.get('mortgageInterest')?.invalid && submitted
-                }"
-                alt=""
-              />
-            </div>
-          </div>
-          @if(mortgageForm.get('mortgageInterest')?.hasError('max')){
-          <p class="error">Cannot exceed 20%.</p>
-          } @else if (mortgageForm.get('mortgageInterest')?.invalid &&
-          submitted) {
-          <p class="error">This field is required</p>
-          }
-        </div>
+        <app-mortg-term></app-mortg-term>
+        <app-interest-term></app-interest-term>
       </div>
       <div class="mortgage-type">
         <p>Mortgage Type</p>
-        <div
-          [ngClass]="{
-            'radio-cont': true,
-            'on-click-border': mortgageForm.value.mortgageType == 'radio1',
-            'on-click-radio': mortgageForm.value.mortgageType == 'radio1'
-          }"
-        >
-          <input
-            type="radio"
-            name="mortgageType"
-            id="radio1"
-            formControlName="mortgageType"
-            value="radio1"
-          />
-          <h2>Repayment</h2>
-        </div>
-        <div
-          [ngClass]="{
-            'radio-cont': true,
-            'on-click-border': mortgageForm.value.mortgageType == 'radio2',
-            'on-click-radio': mortgageForm.value.mortgageType == 'radio2'
-          }"
-        >
-          <input
-            type="radio"
-            name="mortgageType"
-            formControlName="mortgageType"
-            id="radio2"
-            value="radio2"
-          />
-          <h2>Interest Only</h2>
-        </div>
-        @if (mortgageForm.get('mortgageType')?.invalid && submitted) {
-        <p class="error">This field is required</p>
-        }
+        <app-repayment-type></app-repayment-type>
+        <app-interest-type></app-interest-type>
       </div>
-      <button (click)="formSubmit()">
-        <img src="assets/calc.svg" alt="" />
-        <h2>Calculate Repayments</h2>
-      </button>
+      <app-submit-form></app-submit-form>
     </div>
-    <div class="results">
-      @if(submitted && validForm){
-      <div class="results-inner">
-        <h1>Your results</h1>
-        <p>
-          Your results are shown below based on the information you provided. To
-          adjust the results, edit the form and click “calculate repayments”
-          again.
-        </p>
-        <div class="results-cont">
-          <p>Your monthly repayments</p>
-          <h3>{{ displayMonthly | currency : "USD" : "symbol" : "1.2-2" }}</h3>
-          <hr />
-          <p>Total you'll repay over the term</p>
-          <h1>{{ displayTotal | currency : "USD" : "symbol" : "1.2-2" }}</h1>
-        </div>
-      </div>
-      } @else () {
-      <div class="default-inner">
-        <img src="assets/results.svg" alt="" />
-        <h1>Results shown here</h1>
-        <p>
-          Complete the form and click “calculate repayments” to see what your
-          monthly repayments would be.
-        </p>
-      </div>
-      }
+    <div class="results-container">
+      <app-results></app-results>
     </div>
   </div>
 </div>
