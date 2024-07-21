@@ -1,0 +1,44 @@
+<div class="mortgage-field" [formGroup]="mortgageForm">
+  <p>Mortgage Term</p>
+  <div
+    [ngClass]="{
+      'm-i-input-cont': true,
+      'on-click-border': mortFocused,
+      'error-outline': mortgageForm.get('mortgageTerm')?.invalid && submitted
+    }"
+  >
+    <div class="m-left">
+      <input
+        type="number"
+        id="mortgage"
+        (focus)="onFocus($event)"
+        (blur)="onBlur($event)"
+        formControlName="mortgageTerm"
+        (input)="updateFormField('mortgageTerm', $event.target)"
+      />
+    </div>
+    <div
+      [ngClass]="{
+        'm-right': true,
+        'on-click-prefix': mortFocused,
+        'error-prefix': mortgageForm.get('mortgageTerm')?.invalid && submitted
+      }"
+    >
+      <h2
+        [ngStyle]="{
+          color:
+            mortgageForm.get('mortgageTerm')?.invalid && submitted
+              ? 'white'
+              : 'inherit'
+        }"
+      >
+        years
+      </h2>
+    </div>
+  </div>
+  @if(mortgageForm.get('mortgageTerm')?.hasError('max')){
+  <p class="error">Cannot exceed 60 years.</p>
+  } @else if ( mortgageForm.get('mortgageTerm')?.invalid && submitted) {
+  <p class="error">This field is required</p>
+  }
+</div>

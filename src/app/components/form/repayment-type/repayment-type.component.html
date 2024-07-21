@@ -1,0 +1,18 @@
+<div
+  [ngClass]="{
+    'radio-cont': true,
+    'on-click-border': mortgageForm.value.mortgageType == 'radio1',
+    'on-click-radio': mortgageForm.value.mortgageType == 'radio1'
+  }"
+  [formGroup]="mortgageForm"
+>
+  <input
+    type="radio"
+    name="mortgageType"
+    id="radio1"
+    formControlName="mortgageType"
+    value="radio1"
+    (input)="updateFormField('mortgageType', $event.target)"
+  />
+  <h2>Repayment</h2>
+</div>
