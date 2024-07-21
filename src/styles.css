@@ -28,7 +28,6 @@
   
   *{
       font-family: 'Plus Jakarta Sans';
-  
   }
   
   h1{
@@ -391,7 +390,7 @@
   }
   
   
-  @media (max-width: 900px) {
+  @media (max-width: 991px) {
       .main-container{
           padding: 40px 40px;
           height: 100%;
@@ -410,8 +409,7 @@
       }
 
       .results-container{
-          width: 100%;
-      }
+          width: 100%;      }
     }
   
     
@@ -432,4 +430,14 @@
       .form{
       }
     }
+
+    @media (max-width: 650px){
+        .main-container{
+            border: 2px solid red;
+        }
+        .inner-container{
+            max-width: 400px;;
+        }
+    }
     
+
