@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterOutlet } from '@angular/router';
 import { FormsServiceService } from './components/form/forms-service.service';
@@ -11,6 +11,7 @@ import { InterestTypeComponent } from './components/form/interest-type/interest-
 import { SubmitFormComponent } from './components/form/submit-form/submit-form.component';
 import { ResultsComponent } from './components/form/results/results.component';
 import { ClearAllComponent } from './components/form/clear-all/clear-all.component';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -32,18 +33,24 @@ import { ClearAllComponent } from './components/form/clear-all/clear-all.compone
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
-export class AppComponent implements OnInit {
-  // form states
+export class AppComponent implements OnInit, OnDestroy {
+  // Subscriptions
+  private subscription: Subscription[] = [];
   submitted!: boolean;
   mortgageForm!: FormGroup;
 
   constructor(private formService: FormsServiceService) {}
+
   ngOnInit(): void {
-    this.formService.mortgageForm$.subscribe((value) => {
+    const sub1 = this.formService.mortgageForm$.subscribe((value) => {
       this.mortgageForm = value;
     });
-    this.formService.submitted$.subscribe((value) => {
+    const sub2 = this.formService.submitted$.subscribe((value) => {
       this.submitted = value;
     });
+    this.subscription.push(sub1, sub2);
+  }
+  ngOnDestroy(): void {
+    this.subscription.forEach((sub) => sub.unsubscribe());
   }
 }

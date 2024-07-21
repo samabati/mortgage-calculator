@@ -97,20 +97,37 @@ export class FormsServiceService {
     const annual_interest = Number(
       this.mortgageFormSubject.value.get('mortgageInterest')?.value
     );
-    //calculations
-    const monthly_interest = (annual_interest * 0.01) / 12;
-    const total_payments = total_term * 12;
 
-    const monthly_payment =
-      (principal *
-        monthly_interest *
-        Math.pow(1 + monthly_interest, total_payments)) /
-      (Math.pow(1 + monthly_interest, total_payments) - 1);
-    const total_value_over_term = monthly_payment * total_payments;
+    if (
+      this.mortgageFormSubject.value.get('mortgageType')?.value === 'radio1'
+    ) {
+      //calculations for repayment
+      const monthly_interest = (annual_interest * 0.01) / 12;
+      const total_payments = total_term * 12;
 
-    // remove trailing decimal and assign to property value
-    this.displayMonthlySubject.next(monthly_payment.toFixed(2));
-    this.displayTotalSubject.next(total_value_over_term.toFixed(2));
+      const monthly_payment =
+        (principal *
+          monthly_interest *
+          Math.pow(1 + monthly_interest, total_payments)) /
+        (Math.pow(1 + monthly_interest, total_payments) - 1);
+      const total_value_over_term = monthly_payment * total_payments;
+
+      // remove trailing decimal and assign to property value
+      this.displayMonthlySubject.next(monthly_payment.toFixed(2));
+      this.displayTotalSubject.next(total_value_over_term.toFixed(2));
+    }
+
+    if (
+      this.mortgageFormSubject.value.get('mortgageType')?.value === 'radio2'
+    ) {
+      //calculations for interest only
+      const monthlyInterestPayment =
+        (principal * (annual_interest * 0.01)) / 12;
+      const totalInterestPayment = monthlyInterestPayment * (total_term * 12);
+      // remove trailing decimal and assign to property value
+      this.displayMonthlySubject.next(monthlyInterestPayment.toFixed(2));
+      this.displayTotalSubject.next(totalInterestPayment.toFixed(2));
+    }
   }
 
   // Remove commas from total amount for calculation

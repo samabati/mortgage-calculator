@@ -30,7 +30,10 @@
       <app-submit-form></app-submit-form>
     </div>
     <div class="results-container">
-      <app-results [submitted]="submitted"></app-results>
+      <app-results
+        [mortgageForm]="mortgageForm"
+        [submitted]="submitted"
+      ></app-results>
     </div>
   </div>
 </div>

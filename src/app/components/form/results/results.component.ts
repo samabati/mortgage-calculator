@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormsServiceService } from '../forms-service.service';
 import { Observable } from 'rxjs';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-results',
@@ -12,6 +13,7 @@ import { Observable } from 'rxjs';
 })
 export class ResultsComponent implements OnInit {
   @Input() submitted!: boolean;
+  @Input() mortgageForm!: FormGroup;
   validForm!: boolean;
   displayMonthly!: Observable<string>;
   displayTotal!: Observable<string>;
